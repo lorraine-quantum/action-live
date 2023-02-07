@@ -70,7 +70,7 @@ app.use("/auth", auth, modifyUserRoutes);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 app.use("/admin/auth", adminAuth);
 app.get('/', (req, res) => {
-  res.json({ welcome: '365 API' })
+  res.json({ welcome: 'action_live API' })
 })
 app.use("/", adminAuthMiddleware, adminRoutes);
 
