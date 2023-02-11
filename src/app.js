@@ -101,7 +101,7 @@ const admin = new AdminJS({
 })
 const start = async () => {
   try {
-    await connectDB(local);
+    await connectDB(cloud);
     admin.watch()
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
