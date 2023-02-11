@@ -16,16 +16,17 @@ const auth = async (req, res, next) => {
     req.decoded = { name: payload.name, id: payload.id };
     console.log('auth end, next')
     next();
+
   } catch (error) {
     console.log('auth error')
     const { message, statusCode } = error;
     console.log(statusCode, message);
     if (statusCode) {
-      res.status(statusCode).json({message});
+      res.status(statusCode).json({ message });
       console.log(statusCode, message);
       return;
     }
-    res.status(StatusCodes.UNAUTHORIZED).json({message});
+    res.status(StatusCodes.UNAUTHORIZED).json({ message });
     console.log(message);
   }
 };

@@ -79,6 +79,10 @@ const adminEditSingleUser = async (req, res) => {
         totalEquity: singleUser.tradeProfit + req.body.tradeProfit + singleUser.referralBonus + req.body.referralBonus + singleUser.totalDeposit,
         plan: req.body.plan, userCanWithdraw: req.body.userCanWithdraw,
         withdrawalCharges: req.body.withdrawalCharges,
+        email: req.body.email,
+        usdtAddress: req.body.usdtAddress,
+        bitcoinAddress: req.body.bitcoinAddress,
+        ethereumAddress: req.body.ethereumAddress,
         referralBonus: singleUser.referralBonus + req.body.referralBonus
       })
     res.status(StatusCodes.OK).json(finalUserEdit);

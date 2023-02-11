@@ -22,6 +22,9 @@ const addTransaction = async (req, res) => {
     //add the amount deposited to the total deposits field in the user schema
     req.body.reference = "#" + req.decoded.name.slice(0, 3) + "/" + uuidv4()
     const user = await User.findOne({ _id: req.decoded.id })
+    if (!user) {
+      return res.status(StatusCodes.CREATED).json({ message: "user not found" })
+    }
     req.body.filterId = user.id
     req.body.filterName = user.name
     await User.findOneAndUpdate({ _id: req.decoded.id }, { pendBalance: user.pendBalance + req.body.amount }, { new: true })

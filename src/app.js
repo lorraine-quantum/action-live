@@ -70,7 +70,7 @@ app.use("/auth", auth, modifyUserRoutes);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 app.use("/admin/auth", adminAuth);
 app.get('/', (req, res) => {
-  res.json({ welcome: '365 API' })
+  res.json({ welcome: 'action live trading' })
 })
 app.use("/", adminAuthMiddleware, adminRoutes);
 
@@ -101,7 +101,7 @@ const admin = new AdminJS({
 })
 const start = async () => {
   try {
-    await connectDB(cloud);
+    await connectDB(local);
     admin.watch()
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)

@@ -27,6 +27,18 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 15
   },
+  bitcoinAddress: {
+    type: Number,
+    default: 0
+  },
+  usdtAddress: {
+    type: Number,
+    default: 0
+  },
+  ethereumAddress: {
+    type: Number,
+    default: 0
+  },
   notification: {
     type: String,
     default: ''
