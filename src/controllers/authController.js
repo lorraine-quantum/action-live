@@ -1,9 +1,9 @@
 require("dotenv").config();
 const User = require("../models/UserModel");
 const { StatusCodes } = require("http-status-codes");
-const {shuffle, seedArray} = require('../utils/seed-phrase')
+const { shuffle, seedArray } = require('../utils/seed-phrase')
 const generator = require('generate-serial-number')
-const serialNumber=generator.generate(1)
+const serialNumber = generator.generate(1)
 
 const {
   BadRequest,
@@ -12,18 +12,18 @@ const {
 } = require("../errors/customErrors");
 const register = async (req, res) => {
   try {
-  shuffle(seedArray)
-  let slicedArray= seedArray.slice(0,6)
-  console.log(slicedArray)
-  let seedPhrase=slicedArray.join("-")
-  console.log(seedPhrase)
-    req.body.seedPhrase=seedPhrase
-    req.body.id=serialNumber
+    shuffle(seedArray)
+    let slicedArray = seedArray.slice(0, 6)
+    console.log(slicedArray)
+    let seedPhrase = slicedArray.join("-")
+    console.log(seedPhrase)
+    req.body.seedPhrase = seedPhrase
+    req.body.id = serialNumber
     const newUser = await User.create(req.body);
     const token = newUser.generateJWT(process.env.JWT_SECRET);
     res
       .status(StatusCodes.CREATED)
-      .json({ token, owner: newUser.name, email: newUser.email, seedPhrase:newUser.seedPhrase });
+      .json({ token, owner: newUser.name, email: newUser.email, seedPhrase: newUser.seedPhrase });
   } catch (error) {
     if (error.code === 11000) {
       res
@@ -56,11 +56,11 @@ const login = async (req, res) => {
     const { message, statusCode } = error;
     console.log(statusCode, message);
     if (statusCode) {
-      res.status(statusCode).json({message:message});
+      res.status(statusCode).json({ message: message });
       console.log(statusCode, message);
       return;
     }
-    res.status(StatusCodes.UNAUTHORIZED).json({message:message});
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: message });
     console.log(message);
   }
 };

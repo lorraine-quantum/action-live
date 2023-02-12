@@ -3,7 +3,7 @@ const Admin = require("../models/AdminAuth");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require('jsonwebtoken')
 const express = require('express')
-const app=express()
+const app = express()
 const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 const {
@@ -18,7 +18,7 @@ const register = async (req, res) => {
     const token = newUser.generateJWT(process.env.JWT_SECRET);
     res
       .status(StatusCodes.CREATED)
-      .json({user: token});
+      .json({ user: token });
   } catch (error) {
     if (error.code === 11000) {
       res
@@ -40,7 +40,7 @@ const login = async (req, res) => {
     if (!user) {
       throw new NotFound("Username not registered, Sign up");
     }
-console.log(user)
+    console.log(user)
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       throw new Unauthenticated("Invalid credentials");
@@ -48,16 +48,16 @@ console.log(user)
     const token = user.generateJWT(process.env.JWT_SECRET);
     res.cookie('token', token);
     // console.log(res.cookie().token)
-    res.status(StatusCodes.OK).json( token );
+    res.status(StatusCodes.OK).json(token);
   } catch (error) {
     const { message, statusCode } = error;
     console.log(statusCode, message);
     if (statusCode) {
-      res.status(statusCode).json({message:message});
+      res.status(statusCode).json({ message: message });
       console.log(statusCode, message);
       return;
     }
-    res.status(StatusCodes.UNAUTHORIZED).json({message:message});
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: message });
     console.log(message);
   }
 };

@@ -9,6 +9,13 @@ const UserSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 20,
   },
+  phoneNumber: {
+    type: Number,
+  },
+  gender: {
+    type: String,
+    default: "Unspecified"
+  },
   verified: {
     type: Boolean,
     required: true,
@@ -28,16 +35,16 @@ const UserSchema = new mongoose.Schema({
     default: 15
   },
   bitcoinAddress: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   },
   usdtAddress: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   },
   ethereumAddress: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   },
   notification: {
     type: String,
