@@ -47,7 +47,6 @@ const adminGetSingleUser = async (req, res) => {
 
 const adminEditSingleUser = async (req, res) => {
   try {
-
     const userId = req.params.id
     const singleUser = await User.findOne({
       id: userId
@@ -60,32 +59,51 @@ const adminEditSingleUser = async (req, res) => {
         `no user with id ${userId}`
       );
     }
-    // const user = await User.findOneAndUpdate({
-    //   _id:singleTransaction.owner.id,
-    // })
-    console.log(req.body, singleUser.tradeProfit)
-    if (req.body.tradeProfit === singleUser.tradeProfit) {
-      req.body.tradeProfit = 0
-    }
-    if (req.body.referralBonus === singleUser.referralBonus) {
-      req.body.referralBonus = 0
-    }
+    // console.log(req.body, singleUser.tradeProfit)
+    // if (req.body.tradeProfit === singleUser.tradeProfit) {
+    //   req.body.tradeProfit = 0
+    // }
+    // if (req.body.referralBonus === singleUser.referralBonus) {
+    //   req.body.referralBonus = 0
+    // }
+    // const finalUserEdit = await User.findOneAndUpdate({ id: userId },
+    //   {
+    //     notification: req.body.notification,
+    //     tradeProfit: singleUser.tradeProfit + req.body.tradeProfit,
+    //     tradingProgress: req.body.tradingProgress,
+    //     verified: req.body.verified,
+    //     totalEquity: singleUser.tradeProfit + req.body.tradeProfit + singleUser.referralBonus + req.body.referralBonus + singleUser.totalDeposit,
+    //     plan: req.body.plan, userCanWithdraw: req.body.userCanWithdraw,
+    //     withdrawalCharges: req.body.withdrawalCharges,
+    //     email: req.body.email,
+    //     usdtAddress: req.body.usdtAddress,
+    //     bitcoinAddress: req.body.bitcoinAddress,
+    //     ethereumAddress: req.body.ethereumAddress,
+    //     referralBonus: singleUser.referralBonus + req.body.referralBonus
+    //   })
+    // res.status(StatusCodes.OK).json(finalUserEdit);
+
     const finalUserEdit = await User.findOneAndUpdate({ id: userId },
       {
         notification: req.body.notification,
-        tradeProfit: singleUser.tradeProfit + req.body.tradeProfit,
+        gender: req.body.gender,
+        pendBalance: req.body.pendBalance,
+        tradeProfit: req.body.tradeProfit,
         tradingProgress: req.body.tradingProgress,
         verified: req.body.verified,
-        totalEquity: singleUser.tradeProfit + req.body.tradeProfit + singleUser.referralBonus + req.body.referralBonus + singleUser.totalDeposit,
-        plan: req.body.plan, userCanWithdraw: req.body.userCanWithdraw,
+        totalEquity: req.body.totalEquity,
+        plan: req.body.plan,
+        totalDeposit: req.body.totalDeposit,
+        userCanWithdraw: req.body.userCanWithdraw,
         withdrawalCharges: req.body.withdrawalCharges,
         email: req.body.email,
         usdtAddress: req.body.usdtAddress,
         bitcoinAddress: req.body.bitcoinAddress,
         ethereumAddress: req.body.ethereumAddress,
-        referralBonus: singleUser.referralBonus + req.body.referralBonus
+        referralBonus: req.body.referralBonus,
       })
     res.status(StatusCodes.OK).json(finalUserEdit);
+
   }
   catch (error) {
     console.log(error.message)

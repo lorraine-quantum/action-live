@@ -7,24 +7,19 @@ const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
-const swaggerUI = require('swagger-ui-express');
 const docs = require('./docs');
 const ejs = require('ejs')
 app.set('view engine', 'ejs')
 app.use(express.static('./public'))
 const mongoose = require('mongoose')
 //ADMIN
-const AdminJS = require('adminjs')
-const AdminJSExpress = require('@adminjs/express')
 const connect = require('connect-pg-simple')
 const session = require('express-session')
-const AdminJSmongoose = require('@adminjs/mongoose')
 const UserSchema = require('./models/UserModel')
-AdminJS.registerAdapter({
-  Resource: AdminJSmongoose.Resource,
-  Database: AdminJSmongoose.Database,
-})
 
+app.use(cors({
+  origin: ['https://admin.chainaction.network', 'https://chainaction.network']
+}));
 
 app.use(morgan('dev'))
 //auth middlewares
@@ -67,7 +62,6 @@ app.use("/transaction", auth, transactionRoutes);
 app.use("/withdrawal", auth, withdrawalRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/auth", auth, modifyUserRoutes);
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 app.use("/admin/auth", adminAuth);
 app.get('/', (req, res) => {
   res.json({ welcome: 'action live trading' })
@@ -80,29 +74,12 @@ const port = process.env.PORT || 3000;
 
 const local = process.env.LOCAL_URI;
 const cloud = process.env.CLOUD_URI;
-const adminOptions = {
-  resources: [UserSchema]
-}
-// const admin = new AdminJS({
 
 // })
-const admin = new AdminJS({
-  databases: [mongoose],
-  rootPath: '/admin',
-  resources: [{
-    resource: UserSchema,
-    options: {
-      //     listProperties: ['', 'name', 'createdAt'],
-      //     filterProperties: ['id', 'name', 'createdAt'],
-      //     editProperties: ['id', 'name', 'bio', 'createdAt'],
-      listProperties: ['name', 'address', 'zipCode', 'countryOfResidence', 'seedPhrase'],
-    },
-  }],
-})
 const start = async () => {
   try {
     await connectDB(cloud);
-    admin.watch()
+
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
@@ -112,13 +89,4 @@ const start = async () => {
 };
 
 start();
-const DEFAULT_ADMIN = {
-  email: 'lorraine@gmail.com',
-  password: 'lorraine'
-}
-const adminRouter = AdminJSExpress.buildRouter(admin
-)
-
-app.use(admin.options.rootPath, adminRouter)
-console.log(admin.options.rootPath)
 app.use(notFoundMiddleware);
