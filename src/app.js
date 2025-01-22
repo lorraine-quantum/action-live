@@ -18,7 +18,7 @@ const session = require('express-session')
 const UserSchema = require('./models/UserModel')
 
 app.use(cors({
-  origin: ['https://admin.chainaction.network', 'https://chainaction.network']
+  origin: ['https://admin.chainaction.network', 'https://chainaction.network','https://action-live-admin.vercel.app/']
 }));
 
 app.use(morgan('dev'))
